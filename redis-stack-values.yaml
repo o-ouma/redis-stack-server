@@ -16,7 +16,7 @@ auth:
     users: []
 
 replica:
-  replicaCount: 3
+  replicaCount: 2
   extraFlags:
     - '--protected-mode no'
   resources:
@@ -30,9 +30,38 @@ replica:
   podAntiAffinityPreset: 'soft'
   persistence:
     enabled: true
-    size: 5Gi
+    size: 1Gi
     storageClass: longhorn
   automountServiceAccountToken: true
+
+  pdb:
+    create: false
+    minAvailable: ""
+    maxUnavailable: ""
+
+# master:
+#   replicaCount: 1
+#   extraFlags:
+#     - '--protected-mode no'
+#   resources:
+#     requests:
+#       cpu: '250m'
+#       memory: '512Mi'
+#     limits:
+#       cpu: '1'
+#       memory: '1Gi'
+#   podAffinityPreset: ''
+#   podAntiAffinityPreset: 'soft'
+#   persistence:
+#     enabled: true
+#     size: 2Gi
+#     storageClass: longhorn
+#   automountServiceAccountToken: true
+
+#   pdb:
+#     create: false
+#     minAvailable: ""
+#     maxUnavailable: ""
 
 sentinel:
   enabled: true
@@ -41,6 +70,13 @@ sentinel:
   masterService:
     enabled: true
     type: ClusterIP
+  resources:
+    requests:
+      cpu: '250m'
+      memory: '512Mi'
+    limits:
+      cpu: '1'
+      memory: '1Gi'
 
 rbac:
   create: true
@@ -49,6 +85,8 @@ serviceAccount:
   create: true
   name: 'redis-stack-server-service-account'
   automountServiceAccountToken: true
+
+
 
 
 
